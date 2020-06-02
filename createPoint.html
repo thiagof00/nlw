@@ -31,7 +31,7 @@
                 <fieldset>
                        <h2><legend>Dados da entidade</legend></h2> 
                             <div class="field">
-                                <label for="name">Nome da identidade</label>
+                                <label for="name">Nome da entidade</label>
                                 <input type="text" name="name">
                             </div>
 
@@ -50,13 +50,17 @@
                                             <label for="state">Estado</label>
                                             <select name="uf">
                                                 <option value="">Selecione o estado</option>
+                                                
                                             </select>
+
+                                            <input type="hidden" name="state">
                                 </div>
                                 <div class="field">
                                             <label for="city">Cidade</label>
                                             <select name="city" disabled>
                                                 <option value="">Selecione a cidade</option>
                                             </select>
+
                                 </div>
                                 
                             </div>
@@ -82,6 +86,6 @@
         
             
 
-    
+    <script src="scripts/create-point.js"></script>
 </body>
 </html>
