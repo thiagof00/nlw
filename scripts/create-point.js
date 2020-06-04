@@ -25,14 +25,18 @@ function getCities(event){
     const indexOfSelectedState = event.target.selectedIndex
     stateInput.value = event.target.options[indexOfSelectedState].text
     const ufValue = event.target.value
-    const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/33%7C35/municipios`
+    const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${ufValue}/municipios`
 
-    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados/33%7C35/municipios").then((res)=>{
+
+    citySelect.innerHTML = "<option value>Selecione a cidade</option>"
+    citySelect.disabled = true
+
+    fetch(url).then((res)=>{
         return res.json()
 }).then( cities => {
 
     for( const city of cities) {
-        citySelect.innerHTML += `<option value="${city.id}">${city.nome}</option>`
+        citySelect.innerHTML += `<option value="${city.nome}">${city.nome}</option>`
 
     }
    
@@ -42,9 +46,60 @@ function getCities(event){
 }
 
 
-
-
-
 document
 .querySelector("select[name=uf]")
 .addEventListener("change", getCities)
+
+
+
+//itens de coleta
+const itensToCollect = document.querySelectorAll(".itens-grid li")
+
+for(const item of itensToCollect){
+        item.addEventListener("click", handleSelectedItem)
+
+
+}
+
+const collectedItens = document.querySelector("input[name=itens]")
+
+let selectedItens = []
+
+function handleSelectedItem(){
+    const itemLi = event.target
+      //adicionar ou remover a classe
+        itemLi.classList.toggle("selected")
+
+    const itemId = itemLi.dataset.id
+
+        //verificar se existem itens selecionados, se sim
+        // pegar os itens selecionados
+        const alreadySelected = selectedItens.findIndex( item=>{
+                       const itemFound = item ==itemId 
+            return itemFound
+        })
+
+       
+        //se já estiver selecionado, retira
+
+       if(alreadySelected >= 0){
+                const filteredItens = selectedItens.filter( item =>{
+                    const itemIsDifferent = item != itemId
+                    return itemIsDifferent
+                })
+
+              selectedItens = filteredItens
+
+
+
+        }else{
+            //se não estiver selecionado, adiciona
+
+            selectedItens.push(itemId)
+        }
+        
+        collectedItens.value = selectedItens
+
+}
+
+
